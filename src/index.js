@@ -5,6 +5,8 @@ const app= express();
 
 const { PORT } = require("./config/serverConfig");
 
+const mailSender = require("./service/email-service");
+
 const setupAndStartServer = ()=>{
 
     app.use(bodyParser.json());
