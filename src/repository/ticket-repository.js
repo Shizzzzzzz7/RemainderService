@@ -35,7 +35,21 @@ class TicketRepository {
             });
             return tickets;
         } catch (error) {
-            
+            throw {error};
+        }
+    }
+
+    async update(ticketId, data){
+        try {
+            const ticket = await NotificationTicket.findByPk(ticketId);
+            if(ticket){
+                ticket.status = data.status;
+                await ticket.save();
+                return true;
+            }
+            throw {error:"Didn't got the ticket"};
+        } catch (error) {
+            throw {error};
         }
     }
 }

@@ -26,6 +26,7 @@ const fetchPendingMails = async()=>{
         const response = await ticketRepository.get();
         return response;
     } catch (error) {
+        console.log(error);
         console.log("Service Error");
         throw {error};
         
@@ -41,8 +42,18 @@ const createNotification = async(data)=>{
         throw {error};
     }
 }
+
+const updateStatus = async(ticketId, data)=>{
+    try {
+        const response = await ticketRepository.update(ticketId,data);
+        return response;
+    } catch (error) {
+        throw {error};
+    }
+}
 module.exports = {
     mailSender,
     fetchPendingMails,
-    createNotification
+    createNotification,
+    updateStatus
 };

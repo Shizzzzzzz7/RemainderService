@@ -10,6 +10,7 @@ const create = async(req,res)=>{
             err: {}
         });
     } catch (error) {
+        console.log("Controller Error");
         return res.status(201).json({
             data: {},
             success: false,
