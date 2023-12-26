@@ -1,5 +1,7 @@
 const amqplib = require('amqplib');
 
+const { EXCHANGE_NAME, MESSAGE_BROKER_URL } = require("../config/serverConfig")
+
 //Publishe ---> Exchange Distributer ---> Queue {for multiple queue we have multiple Binding key}
 
 //This creates channel between the sender and reciever
@@ -11,7 +13,7 @@ const createChannel = async()=>{
         //creates a new channel on the established connection. Channels are used to isolate and multiplex different messaging flows within a single connection.
         const channel = await connection.createChannel();
         //used to declare an exchange on a channel. Exchanges in RabbitMQ are routing mechanisms that determine how messages are distributed to queues.
-        await channel.assertExchange(EXCHANGE_NAME, direct, 'false');
+        await channel.assertExchange(EXCHANGE_NAME, 'direct', false);
         return channel;
     } catch (error) {
         throw error;
@@ -21,7 +23,7 @@ const createChannel = async()=>{
 const subscribeMessage = async(channel, service, binding_key)=>{
     try {
         //ensures that a queue exists on the channel
-        const applicationQueue = await channel.assertQueue(QUEUE_NAME);
+        const applicationQueue = await channel.assertQueue('QUEUE_NAME');
         //bind a queue to an exchange on a channel in RabbitMQ
         //which queue to choose to send msg
         channel.bindQueue(applicationQueue.queue, EXCHANGE_NAME, binding_key);
@@ -38,6 +40,7 @@ const subscribeMessage = async(channel, service, binding_key)=>{
 
 const publishMessage = async(channel, binding_key, message)=>{
     try {
+        await channel.assertQueue('QUEUE_NAME');
         await channel.publish(EXCHANGE_NAME, binding_key, Buffer.from(message));
     } catch (error) {
         throw error;
