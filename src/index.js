@@ -1,7 +1,8 @@
 const bodyParser = require("body-parser");
 const express = require("express");
 const { createChannel, subscribeMessage } = require("./utils/messageQueue");
-const { REMAINDER_BINDING_KEY } = require("./config/serverConfig")
+const { REMAINDER_BINDING_KEY } = require("./config/serverConfig");
+const EmailService = require("./service/email-service");
 
 const app= express();
 
@@ -23,7 +24,7 @@ const setupAndStartServer = async()=>{
 
     app.listen(PORT , ()=>{
         console.log(`Server Running on PORT: ${PORT}`);
-        subscribeMessage(channel, undefined, REMAINDER_BINDING_KEY);
+        subscribeMessage(channel, EmailService.subscribeEvents , REMAINDER_BINDING_KEY);
         // setupJobs();
     });
 }

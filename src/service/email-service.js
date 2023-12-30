@@ -51,9 +51,24 @@ const updateStatus = async(ticketId, data)=>{
         throw {error};
     }
 }
+
+const subscribeEvents = async(payload) =>{
+    
+    let service = payload.service;
+    let data = payload.dat;
+    switch(service){
+        case 'CREATE_NOTIFICATION': await createNotification(data);
+        console.log("hello");
+        break;
+        default:
+            console.log("Not Matched");
+    }
+}
+
 module.exports = {
     mailSender,
     fetchPendingMails,
     createNotification,
-    updateStatus
+    updateStatus,
+    subscribeEvents
 };
