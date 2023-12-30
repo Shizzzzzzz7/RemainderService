@@ -3,7 +3,7 @@ const transporter =require("../config/emailConfig");
 
 const TicketRepository = require("../repository/ticket-repository");
 
-const ticketRepository = new TicketRepository();
+const ticketRepository =  new TicketRepository();
 
 const mailSender = async(mailFrom, mailTo, mailSubject, mailText)=>{
     try{const response = await transporter.sendMail({
